@@ -1,0 +1,10 @@
+# Copy to config.json, change values and erase comments to use
+# TODO: configure controller connection settings for integration testing
+# this will ease figuring out problems with controller connection and/or configuration
+{
+  "base_url": "https://example.com:8443",
+  "ssl_verify": true,
+  "debug": true,
+  "username": "example",
+  "password": "example"
+}
