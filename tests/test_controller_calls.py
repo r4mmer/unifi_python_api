@@ -3,7 +3,7 @@ import sys
 from os.path import isfile, dirname, join as pjoin
 import unittest
 
-from unifi_client import UnifiClient
+from unifi_api import UnifiClient
 
 config_file = pjoin(dirname(__file__), 'config.json')
 if not isfile(config_file):

@@ -3,9 +3,9 @@
 from setuptools import setup, find_packages
 
 setup(
-    name = "unifi_client",
+    name = "unifi-python-api",
     version = "0.1.0",
-    packages = find_packages(),
+    packages = find_packages('src'),
     install_requires = [
         'requests>=2.21.0,<3',
         'trafaret>=1.2.0<1.3',

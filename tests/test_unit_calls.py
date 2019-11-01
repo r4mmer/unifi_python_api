@@ -6,10 +6,10 @@ import requests
 import urllib3
 import trafaret as t
 
-from unifi_client import UnifiClient
-from unifi_client.base_api import AbstractUnifiSession
-from unifi_client.utils import models
-from unifi_client.utils.decorators import requires_login, call_requires_login
+from unifi_api import UnifiClient
+from unifi_api.base_api import AbstractUnifiSession
+from unifi_api.utils import models
+from unifi_api.utils.decorators import requires_login, call_requires_login
 
 
 class BaseTestCase(unittest.TestCase):
