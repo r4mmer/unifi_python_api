@@ -4,8 +4,9 @@ A python implementation of the Unifi controller API
 
 ### Instalation
 
-For now, only from GitHub (this repo), but i'll be posting it on PyPI soon.
-- Run this to install module and dependencies (pip install -e .)
+```bash
+$ pip install unifi-python-api
+```
 
 ### Progress
 For now, only the guest manager calls have been implemented (because that's my current use for this API).
