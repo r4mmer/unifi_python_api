@@ -24,7 +24,9 @@ MacAddress = t.OnError(
 )
 
 SiteName = t.OnError(
-    t.Or(t.String(min_length=8, max_length=8), t.Atom('default')),
+    # XXX: New unifi update changes site id structure, fix for future releases
+    # t.Or(t.String(min_length=8, max_length=8), t.Atom('default')),
+    t.String(),
     'value is not an Unifi site id'
 )
 
