@@ -88,4 +88,4 @@ class AbstractUnifiSession:
         raise NotImplementedError('login')
 
     def logout(self):
-        raise NotImplementedError(logout)
+        raise NotImplementedError('logout')
