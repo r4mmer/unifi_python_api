@@ -1,5 +1,4 @@
 from datetime import datetime
-
 import trafaret as t
 
 from .base_api import AbstractUnifiSession
@@ -65,6 +64,12 @@ class UnifiClient(AbstractUnifiSession):
         self.post(self.endpoint('/logout'))
         self.clean_session()
         return True
+
+    def datetemp(self, a):
+        '''
+            Convert datetime to timestamp
+        '''
+        return int(datetime.timestamp(a)*1000)
 
     @requires_login
     @guard(models.authorize_guest_params)
@@ -877,3 +882,83 @@ class UnifiClient(AbstractUnifiSession):
         r = self.get(self.endpoint('/api/s/%s/stat/report/archive.speedtest' % site), json=data)
         return self.process_response(r)
 
+    @requires_login
+    def stat_deviceBasic(self, site):
+        '''
+            Get all AP mac's from this site.
+            site = 'site code'
+
+            Response:
+                type: uap is AP, usw is Switch
+        '''
+        r = self.get(self.endpoint('/api/s/{}/stat/device-basic' .format(site)))
+        return self.process_response(r)
+
+    @requires_login
+    def stat_device(self, site, macs=None):
+        '''
+            List all params from dashboad/clients, include all activeclients, client ap conected, active down/up per client, ip, name, wlan, channel and others stats.
+            Case macs is None, this request bring data from all AP's. Case especific mac in this request, this request bring data from this AP's.
+
+            Required: site[site code string]
+            Optional: macs[array of macs]
+            Example:
+                {"macs":["f0:9f:c2:33:94:27", "f0:9f:c2:33:94:27"]}
+        '''
+        json = {"macs": macs}
+        r = self.post(self.endpoint('/api/s/{}/stat/device' .format(site)), json=json)
+        return self.process_response(r)
+
+    @requires_login
+    def stat_reportSite(self, site, date_range, interval='daily', attrs=None):
+        '''
+            This request get total user and traffic per interval
+            Required: site, date_range(tuple in datetime)
+            Optional:
+                      macs: Array of AP mac's
+                      date_range: tuple of datetime range
+                      interval: daily, hourly, 5minutes. Default is 'daily'
+                      attrs: aditional filters, default is ["bytes","num_sta","time"]
+        '''
+        assert date_range, "date_range is required"
+        data = {"start": self.datetemp(date_range[0]), "end": self.datetemp(date_range[1])}
+        if (attrs == None):
+            data["attrs"] = [
+                "wlan_bytes",
+                "wlan-num_sta",
+                "time"]
+        else:
+            data["attrs"] = attrs
+        r = self.post(self.endpoint('/api/s/{}/stat/report/{}.site' .format(site, interval)), json=data)
+        return self.process_response(r)
+
+    @requires_login
+    def stat_reportAp(self, site, date_range, macs=None, interval='daily', attrs=None):
+        '''
+            Required: site, date_range(tuple in datetime)
+            Optional:
+                      date_range: tuple of datetime range
+                      macs: Array of AP mac's
+                      interval: daily, hourly, 5minutes. Default is 'daily'
+                      attrs: Aditional filters, default is ["bytes","num_sta","time"]
+        '''
+        data = {
+            "start": self.datetemp(date_range[0]),
+            "end": self.datetemp(date_range[1])}
+        if (attrs == None):
+            data["attrs"] = ["bytes", "num_sta","time"]
+        else:
+            data["attrs"] = attrs
+        r = self.post(self.endpoint('/api/s/{}/stat/report/{}.ap' .format(site, interval)), json=data)
+        return self.process_response(r)
+
+    @requires_login
+    def stat_widgetHealth(self, site):
+        '''
+            List AP's and Switchs adopted, connected, disconnected, pending and disable
+            UAP = AP
+            USW = SWITCH
+            UGW = UNIFI GATEWAY?
+        '''
+        r = self.post(self.endpoint('/api/s/{}/stat/widget/health' .format(site)))
+        return self.process_response(r)
