@@ -968,5 +968,5 @@ class UnifiClient(AbstractUnifiSession):
         '''
             List all users connected, pending and others stats.
         '''
-        r = self.get(self.endpoint('/api/s/{}/stat/sta' .formart(site))
+        r = self.get(self.endpoint('/api/s/{}/stat/sta' .formart(site)))
         return self.process_response(r)
