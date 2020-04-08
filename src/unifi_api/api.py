@@ -899,7 +899,7 @@ class UnifiClient(AbstractUnifiSession):
         '''
             List all params from dashboad/clients, include all activeclients, client ap conected, active down/up per client, ip, name, wlan, channel and others stats.
             Case macs is None, this request bring data from all AP's. Case especific mac in this request, this request bring data from this AP's.
-
+            -
             Required: site[site code string]
             Optional: macs[array of macs]
             Example:
