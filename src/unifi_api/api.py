@@ -962,3 +962,11 @@ class UnifiClient(AbstractUnifiSession):
         '''
         r = self.post(self.endpoint('/api/s/{}/stat/widget/health' .format(site)))
         return self.process_response(r)
+
+    @requires_login
+    def stat_clients(self, site):
+        '''
+            List all users connected, pending and others stats.
+        '''
+        r = self.get(self.endpoint('/api/s/{}/stat/sta' .formart(site))
+        return self.process_response(r)
