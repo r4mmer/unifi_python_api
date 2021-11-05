@@ -41,7 +41,8 @@ class UnifiClient(AbstractUnifiSession):
             json={
                 'username': self.username,
                 'password': self.password,
-            }
+            },
+            timeout=4
         )
 
         # debug messages
@@ -105,7 +106,7 @@ class UnifiClient(AbstractUnifiSession):
         if MB_limit is not None:
             data['MB_limit'] = MB_limit
         self.debug('Posting authorize guest: %s' % data)
-        r = self.post(self.endpoint('/api/s/%s/cmd/stamgr' % site), json=data)
+        r = self.post(self.endpoint('/api/s/%s/cmd/stamgr' % site), json=data, timeout=6)
         return self.process_response(r, boolean=True)
 
     @requires_login
@@ -127,7 +128,7 @@ class UnifiClient(AbstractUnifiSession):
             'mac': client_mac,
         }
 
-        r = self.post(self.endpoint('/api/s/%s/cmd/stamgr' % site), json=data)
+        r = self.post(self.endpoint('/api/s/%s/cmd/stamgr' % site), json=data, timeout=6)
         return self.process_response(r, boolean=True)
 
     @guard(client_mac=models.MacAddress, site=models.SiteName)
@@ -195,7 +196,7 @@ class UnifiClient(AbstractUnifiSession):
             'mac': client_macs,
         }
 
-        r = self.post(self.endpoint('/api/s/%s/cmd/stamgr' % site), json=data)
+        r = self.post(self.endpoint('/api/s/%s/cmd/stamgr' % site), json=data, timeout=6)
         return self.process_response(r, boolean=True)
 
     @requires_login
@@ -906,7 +907,7 @@ class UnifiClient(AbstractUnifiSession):
                 {"macs":["f0:9f:c2:33:94:27", "f0:9f:c2:33:94:27"]}
         '''
         json = {"macs": macs}
-        r = self.post(self.endpoint('/api/s/{}/stat/device' .format(site)), json=json)
+        r = self.post(self.endpoint('/api/s/{}/stat/device' .format(site)), json=json, timeout=4)
         return self.process_response(r)
 
     @requires_login
@@ -949,7 +950,7 @@ class UnifiClient(AbstractUnifiSession):
             data["attrs"] = ["bytes", "num_sta","time"]
         else:
             data["attrs"] = attrs
-        r = self.post(self.endpoint('/api/s/{}/stat/report/{}.ap' .format(site, interval)), json=data)
+        r = self.post(self.endpoint('/api/s/{}/stat/report/{}.ap' .format(site, interval)), json=data, timeout=4)
         return self.process_response(r)
 
     @requires_login
