@@ -1,0 +1,22 @@
+[project]
+name = "unifi-python-api"
+version = "0.2.3"
+authors = [
+  { name="André Carneiro", email="acarneiro.dev@gmail.com" },
+]
+dependencies = ['requests<3,>=2.32.0', 'trafaret<3,>=2.1.1']
+description = "A small example package"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Information Technology",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Utilities",
+]
+
+[project.urls]
+Homepage = "https://github.com/r4mmer/unifi_python_api"
+Issues = "https://github.com/r4mmer/unifi_python_api/issues"
