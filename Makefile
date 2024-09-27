@@ -29,6 +29,10 @@ test-upload:
 upload:
 	python3 -m twine upload dist/*
 
+.PHONY: builddeps
+builddeps:
+	python3 -m pip install --upgrade twine build
+
 .PHONY: secret
 secret:
 	@openssl rand -base64 48
